@@ -1,0 +1,21 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: cinema
+  labels:
+    app: cinema
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: cinema
+  template:
+    metadata:
+      labels:
+        app: cinema
+    spec:
+      containers:
+        - name: cinema
+          image: user08skccacr.azurecr.io/cinema:v1
+          ports:
+            - containerPort: 8080

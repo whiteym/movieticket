@@ -1,0 +1,36 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: reserve
+  labels:
+    app: reserve
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: reserve
+  template:
+    metadata:
+      labels:
+        app: reserve
+    spec:
+      containers:
+        - name: reserve
+          image: user08skccacr.azurecr.io/reserve:v1
+          ports:
+            - containerPort: 8080         
+          #readinessProbe:
+          #  tcpSocket:
+          #    port: 8080
+          #  initialDelaySeconds: 10
+          #  timeoutSeconds: 2
+          #  periodSeconds: 5
+          #  failureThreshold: 5
+          livenessProbe:
+            httpGet:
+              path: '/actuator/health'
+              port: 8090
+            initialDelaySeconds: 120
+            timeoutSeconds: 2
+            periodSeconds: 5
+            failureThreshold: 5
